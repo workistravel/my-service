@@ -9,8 +9,14 @@ import java.util.List;
 public interface EmployeeService {
     EmployeeDto getEmployeeById(Long id);
 
-
     List<EmployeeDto> getAllEmployee();
+
+    EmployeeDto deleteEmployeeById(Long id);
+
+    EmployeeDto createEmployee(EmployeeDto employeeDto);
+
+    EmployeeDto changeEmployee(EmployeeDto employeeDto , Long id);
+
 
 
 }

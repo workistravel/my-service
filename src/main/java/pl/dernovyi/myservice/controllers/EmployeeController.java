@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.dernovyi.myservice.models.dto.EmployeeDto;
 import pl.dernovyi.myservice.services.EmployeeServiceImpl;
 
 @RestController
@@ -30,5 +29,23 @@ public class EmployeeController {
     @GetMapping(path="/employees")
     public ResponseEntity<?> getAllEmployee(){
         return new ResponseEntity<>(employeeService.getAllEmployee(), HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/employee/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        return new ResponseEntity<>(employeeService.deleteEmployeeById (id),HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/employee")
+    @ResponseBody
+    public ResponseEntity<?> putEmployee(EmployeeDto employeeDto){
+        return new ResponseEntity<>(employeeService.createEmployee(employeeDto),HttpStatus.CREATED);
+    }
+
+    @PutMapping("/employee/{id}")//@RequestBody
+    EmployeeDto replaceEmployee(EmployeeDto employeeDto, @PathVariable Long id) {
+        employeeService.changeEmployee(employeeDto,id);
+        return employeeDto;
+
     }
 }

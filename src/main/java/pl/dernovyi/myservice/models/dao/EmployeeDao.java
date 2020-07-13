@@ -1,9 +1,13 @@
 package pl.dernovyi.myservice.models.dao;
 
+import com.sun.xml.bind.v2.schemagen.xmlschema.Union;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -24,15 +28,19 @@ public class EmployeeDao {
     private String name;
     @Column(name="salary")
     private Double salary;
-    @Column(name="data_employ")
+    @Column(name="date_employ")
     private Date dateOfEmployment;
 
     private boolean isActive;
 
-    //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinTable(
-//            name = "employee_association",
-//            joinColumns = @JoinColumn(name = "employee_id"),
-//            inverseJoinColumns = @JoinColumn(name = "association_id"))
-//    private Set<Union> associations = new HashSet<>();
+
+
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "employee_union",
+            joinColumns = {@JoinColumn(name = "employee_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "union_id", referencedColumnName = "id")})
+      private Set<UnionDao> unions = new HashSet<>();
+
+
 }
