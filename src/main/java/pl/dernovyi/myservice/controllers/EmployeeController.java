@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.dernovyi.myservice.models.dao.EmployeeDao;
 import pl.dernovyi.myservice.models.dto.EmployeeDto;
 import pl.dernovyi.myservice.services.EmployeeServiceImpl;
 
@@ -23,6 +24,7 @@ public class EmployeeController {
 
     @GetMapping("/employee/{id}")
     public ResponseEntity<?> getEmployee(@PathVariable Long id) {
+
         return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
 

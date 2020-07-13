@@ -7,6 +7,11 @@ CREATE TABLE `mybase`.`employee` (
   PRIMARY KEY (`id`));
 
 
+CREATE TABLE `mybase`.`union` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NULL,
+  PRIMARY KEY (`id`));
+
 
 CREATE TABLE `mybase`.`employee_union` (
   `employee_id` BIGINT(20) NOT NULL,
@@ -23,3 +28,7 @@ CREATE TABLE `mybase`.`employee_union` (
     REFERENCES `mybase`.`union` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+
+INSERT INTO `mybase`.`employee_union` (`employee_id`, `union_id`) VALUES ('2', '2');

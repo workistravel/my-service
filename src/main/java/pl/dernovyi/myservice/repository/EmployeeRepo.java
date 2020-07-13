@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepo extends CrudRepository<EmployeeDao,Long> {
 
+    EmployeeDao getById(Long id);
     @Override
     List<EmployeeDao> findAll();
 

@@ -1,20 +1,16 @@
 package pl.dernovyi.myservice.services;
 
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pl.dernovyi.myservice.exception.EmployeeNotFoundException;
 import pl.dernovyi.myservice.models.dao.EmployeeDao;
-import pl.dernovyi.myservice.models.dao.UnionDao;
-import pl.dernovyi.myservice.models.dto.ActiveEmployeeDto;
 import pl.dernovyi.myservice.models.dto.EmployeeDto;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import pl.dernovyi.myservice.repository.EmployeeRepo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -34,11 +30,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDto;
     }
 
-
+//public EmployeeDao getEmplById(Long id){
+//      EmployeeDao dao=   employeeRepo.getById(id);
+//      return dao;
+//}
 
     @Override
     public EmployeeDto getEmployeeById(Long id) {
-
+        //тест
+        EmployeeDao emp = employeeRepo.getById(id);
         EmployeeDao employee = employeeRepo.findById(id).orElseGet(() -> new EmployeeDao());
          if(!employee.isActive()) {
             return employeeDaoToDTO(employee);
@@ -85,6 +85,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private EmployeeDto employeeDaoToDTO(EmployeeDao employeeDao){
-        return new EmployeeDto(employeeDao.getId(), employeeDao.getName());
+        return EmployeeDto.builder()
+                .id(employeeDao.getId())
+                .name(employeeDao.getName())
+                .unions(employeeDao.getUnions())
+                .build();
     }
 }

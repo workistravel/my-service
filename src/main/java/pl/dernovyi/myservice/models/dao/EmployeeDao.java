@@ -4,20 +4,14 @@ import com.sun.xml.bind.v2.schemagen.xmlschema.Union;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 @Setter
 @Getter
 @Entity
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="employee")
-@EqualsAndHashCode(exclude = "name")
 public class EmployeeDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +28,28 @@ public class EmployeeDao {
     private boolean isActive;
 
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "employee_union",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "union_id"))
+    Set<UnionDao> unions;
 
+    public void addAddress(UnionDao unionDao) {
+        unions.add( unionDao );
+        unionDao.getEmployees().add( this );
+    }
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "employee_union",
-            joinColumns = {@JoinColumn(name = "employee_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "union_id", referencedColumnName = "id")})
-      private Set<UnionDao> unions = new HashSet<>();
+    public void removeAddress(UnionDao unionDao) {
+        unions.remove( unionDao );
+        unionDao.getEmployees().remove( this );
+    }
+
+//    @ManyToMany(cascade = CascadeType.PERSIST)
+//    @JoinTable(name = "employee_union",
+//            joinColumns = {@JoinColumn(name = "employee_id", referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "union_id", referencedColumnName = "id")})
+//      private List<UnionDao> unions;
 
 
 }

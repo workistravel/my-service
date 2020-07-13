@@ -35,8 +35,10 @@ public class ActiveEmployeeServiceImpl implements ActiveEmployeeService {
         employeeRepo.save(employee);
         return employeeDto;
     }
+
     @Override
     public ActiveEmployeeDto getActEmployeeById(Long id) {
+
         EmployeeDao employeeDto = employeeRepo.findById(id).orElseGet(() -> new EmployeeDao());
 
         if(employeeDto.isActive()) {
@@ -79,8 +81,11 @@ public class ActiveEmployeeServiceImpl implements ActiveEmployeeService {
     }
 
     private ActiveEmployeeDto getActiveEmployeeDaoToDTO(EmployeeDao employeeDao) {
-        return new ActiveEmployeeDto(employeeDao.getId(),
+
+        return new ActiveEmployeeDto(
+                employeeDao.getId(),
                 employeeDao.getName(),
+                employeeDao.getUnions(),
                 employeeDao.getSalary(),
                 employeeDao.getDateOfEmployment());
     }
