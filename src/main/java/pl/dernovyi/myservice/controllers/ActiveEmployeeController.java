@@ -44,4 +44,20 @@ public class ActiveEmployeeController {
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
 
     }
+
+    //localhost:8080/actAddUnion/12/1
+    @PutMapping("/actAddUnion/{id_em}/{id_un}")
+    EmployeeDto addUnForEmp(@PathVariable Long id_em,@PathVariable Long id_un ){
+
+        return   employeeService.addActUnionForEmployee(id_em, id_un);
+
+    }
+
+    //localhost:8080/actRemoveUnion/12/1
+    @PutMapping("/actRemoveUnion/{id_em}/{id_un}")
+    EmployeeDto removeUnForEmp(@PathVariable Long id_em,@PathVariable Long id_un ){
+
+        return   employeeService.removeActUnionForEmployee(id_em, id_un);
+
+    }
 }

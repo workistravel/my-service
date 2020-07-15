@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.dernovyi.myservice.models.dao.EmployeeDao;
 import pl.dernovyi.myservice.models.dto.EmployeeDto;
 import pl.dernovyi.myservice.services.EmployeeServiceImpl;
 
@@ -28,6 +27,11 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
 
+    @GetMapping(path="/start/{s}")
+    public ResponseEntity<?> myEmplStartWith(@PathVariable String s){
+       return  new ResponseEntity<>(employeeService.myEmplStartWith(s),HttpStatus.OK);
+    }
+
     @GetMapping(path="/employees")
     public ResponseEntity<?> getAllEmployee(){
         return new ResponseEntity<>(employeeService.getAllEmployee(), HttpStatus.OK);
@@ -44,10 +48,28 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.createEmployee(employeeDto),HttpStatus.CREATED);
     }
 
+
     @PutMapping("/employee/{id}")//@RequestBody
     EmployeeDto replaceEmployee(EmployeeDto employeeDto, @PathVariable Long id) {
         employeeService.changeEmployee(employeeDto,id);
         return employeeDto;
 
     }
+
+    //localhost:8080/addUnion/12/1
+    @PutMapping("/addUnion/{id_em}/{id_un}")
+    EmployeeDto addUnForEmp(@PathVariable Long id_em,@PathVariable Long id_un ){
+
+        return   employeeService.addUnionForEmployee(id_em, id_un);
+
+    }
+
+    //localhost:8080/removeUnion/12/1
+    @PutMapping("/removeUnion/{id_em}/{id_un}")
+    EmployeeDto removeUnForEmp(@PathVariable Long id_em,@PathVariable Long id_un ){
+
+        return   employeeService.removeUnionForEmployee(id_em, id_un);
+
+    }
+
 }

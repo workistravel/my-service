@@ -9,7 +9,6 @@ import java.util.List;
 public interface EmployeeService {
     EmployeeDto getEmployeeById(Long id);
 
-//    EmployeeDao getEmplById(Long id);
     List<EmployeeDto> getAllEmployee();
 
     EmployeeDto deleteEmployeeById(Long id);
@@ -18,6 +17,10 @@ public interface EmployeeService {
 
     EmployeeDto changeEmployee(EmployeeDto employeeDto , Long id);
 
+    List<EmployeeDto> myEmplStartWith(String s);
 
+    EmployeeDto addUnionForEmployee(Long id_em, Long id_un);
+
+    EmployeeDto removeUnionForEmployee(Long id_em, Long id_un);
 
 }

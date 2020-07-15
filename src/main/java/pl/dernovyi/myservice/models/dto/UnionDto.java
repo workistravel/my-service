@@ -1,10 +1,9 @@
 package pl.dernovyi.myservice.models.dto;
 
+
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import pl.dernovyi.myservice.models.dao.UnionDao;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -12,10 +11,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@SuperBuilder
+@Builder
 @EqualsAndHashCode(exclude = "name")
-public class EmployeeDto {
+public class UnionDto {
     private Long id;
     private String name;
-    private Set<UnionDto> unions;
+    private Set<EmployeeDto> employees;
 }

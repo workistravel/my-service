@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.dernovyi.myservice.exception.EmployeeNotFoundException;
 import pl.dernovyi.myservice.models.dao.EmployeeDao;
+import pl.dernovyi.myservice.models.dao.UnionDao;
 import pl.dernovyi.myservice.models.dto.ActiveEmployeeDto;
 import pl.dernovyi.myservice.models.dto.EmployeeDto;
+import pl.dernovyi.myservice.models.dto.UnionDto;
 import pl.dernovyi.myservice.repository.EmployeeRepo;
+import pl.dernovyi.myservice.repository.UnionRepo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 public class ActiveEmployeeServiceImpl implements ActiveEmployeeService {
     @Autowired
     private final EmployeeRepo employeeRepo;
+
+    @Autowired
+    private final UnionRepo unionRepo;
 
     @Override
     public ActiveEmployeeDto createActEmployee(ActiveEmployeeDto employeeDto) {
@@ -50,13 +53,11 @@ public class ActiveEmployeeServiceImpl implements ActiveEmployeeService {
 
     @Override
     public List<ActiveEmployeeDto> getAllActEmployee() {
-        List<ActiveEmployeeDto> employees;
-
-        employees =  employeeRepo.findAll().stream()
+       return    employeeRepo.findAll().stream()
                 .filter( e ->e.isActive())
                 .map(employeeDao -> getActiveEmployeeDaoToDTO(employeeDao))
                 .collect(Collectors.toCollection(() -> new ArrayList<ActiveEmployeeDto>()));
-        return employees;
+
     }
 
     @Override
@@ -80,13 +81,62 @@ public class ActiveEmployeeServiceImpl implements ActiveEmployeeService {
                 }).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
-    private ActiveEmployeeDto getActiveEmployeeDaoToDTO(EmployeeDao employeeDao) {
+    @Override
+    public EmployeeDto addActUnionForEmployee( Long id_empl , Long id_union) {
 
-        return new ActiveEmployeeDto(
-                employeeDao.getId(),
-                employeeDao.getName(),
-                employeeDao.getUnions(),
-                employeeDao.getSalary(),
-                employeeDao.getDateOfEmployment());
+        Optional<UnionDao> union = Optional.ofNullable(unionRepo.findById(id_union)
+                .orElseThrow(() -> new EmployeeNotFoundException(id_union , "union")));
+        Optional<EmployeeDao> employee= Optional.ofNullable(employeeRepo.findById(id_empl)
+                .orElseThrow(() -> new EmployeeNotFoundException(id_empl, "employee")));
+        if(employee.get().isActive())
+        {
+            employee.get().addUnion(union.get());
+            employeeRepo.save(employee.get());
+            Optional<EmployeeDao> dto=employeeRepo.findById(id_empl);
+            return getActiveEmployeeDaoToDTO(dto.get());
+        }
+        throw new EmployeeNotFoundException(id_empl);
+
+
+    }
+
+    @Override
+    public EmployeeDto removeActUnionForEmployee( Long id_empl , Long id_union) {
+
+        Optional<UnionDao> union = Optional.ofNullable(unionRepo.findById(id_union)
+                .orElseThrow(() -> new EmployeeNotFoundException(id_union , "union")));
+        Optional<EmployeeDao> employee= Optional.ofNullable(employeeRepo.findById(id_empl)
+                .orElseThrow(() -> new EmployeeNotFoundException(id_empl, "employee")));
+        if(employee.get().isActive())
+        {
+        employee.get().removeUnion(union.get());
+        employeeRepo.save(employee.get());
+        Optional<EmployeeDao> dto=employeeRepo.findById(id_empl);
+        return getActiveEmployeeDaoToDTO(dto.get());
+        }
+        throw new EmployeeNotFoundException(id_empl);
+
+    }
+
+    private ActiveEmployeeDto getActiveEmployeeDaoToDTO(EmployeeDao employeeDao) {
+        Set<UnionDto> unionDtos = toDTOs(employeeDao.getUnions());
+        return ActiveEmployeeDto.builder()
+                .id(employeeDao.getId())
+                .name(employeeDao.getName())
+                .salary(employeeDao.getSalary())
+                .dateOfEmployment(employeeDao.getDateOfEmployment())
+                .unions(unionDtos)
+                .build();
+            }
+
+    private Set<UnionDto> toDTOs(Set<UnionDao> unions) {
+        return unions.stream().map(u->toDto(u)).collect(Collectors.toSet());
+    }
+
+    private UnionDto toDto(UnionDao u) {
+      return   UnionDto.builder()
+                .id(u.getId())
+                .name(u.getName())
+                .build();
     }
 }

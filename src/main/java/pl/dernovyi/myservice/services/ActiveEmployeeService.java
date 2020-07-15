@@ -15,4 +15,9 @@ public interface ActiveEmployeeService {
     ActiveEmployeeDto createActEmployee(ActiveEmployeeDto employeeDto);
 
     ActiveEmployeeDto changeActEmployee(ActiveEmployeeDto employeeDto ,Long id);
+
+    EmployeeDto addActUnionForEmployee(Long id_em, Long id_un);
+
+    EmployeeDto removeActUnionForEmployee(Long id_em, Long id_un);
+
 }

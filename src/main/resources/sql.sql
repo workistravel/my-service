@@ -30,5 +30,10 @@ CREATE TABLE `mybase`.`employee_union` (
     ON UPDATE NO ACTION);
 
 
+INSERT INTO `mybase`.`unions` (`id`, `name`) VALUES ('4', 'WORKER');
+INSERT INTO `mybase`.`unions` (`id`, `name`) VALUES ('5', 'ADMIN');
 
 INSERT INTO `mybase`.`employee_union` (`employee_id`, `union_id`) VALUES ('2', '2');
+INSERT INTO `mybase`.`employees_unions` (`employees_id`, `unions_id`) VALUES ('2', '1');
+
+DELETE FROM `mybase`.`employees_unions` WHERE (`employees_id` = '2') and (`unions_id` = '2');
