@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @SuperBuilder
-@EqualsAndHashCode(exclude = "name")
+//@EqualsAndHashCode(exclude = "unions")
 public class EmployeeDto {
     private Long id;
     private String name;

@@ -1,5 +1,6 @@
 package pl.dernovyi.myservice.services;
 
+import pl.dernovyi.myservice.converters.ConvertToXML;
 import pl.dernovyi.myservice.exception.EmployeeNotFoundException;
 import pl.dernovyi.myservice.models.dao.EmployeeDao;
 import pl.dernovyi.myservice.models.dao.UnionDao;
@@ -22,6 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepo employeeRepo;
     @Autowired
     private final UnionRepo unionRepo;
+
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
         EmployeeDao employee =EmployeeDao.builder()
@@ -35,11 +37,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto getEmployeeById(Long id) {
-
-        EmployeeDao employee = employeeRepo.findById(id).orElseGet(() -> new EmployeeDao());
-         if(!employee.isActive() ) {
-             if( !isNull(employee)){
-                 return employeeDaoToDTO(employee);
+        Optional<EmployeeDao> employee = employeeRepo.findById(id);
+         if(!employee.get().isActive() ) {
+             if( !isNull(employee.get())){
+                 return employeeDaoToDTO(employee.get());
              } throw new EmployeeNotFoundException(id);
          }
         throw new EmployeeNotFoundException(id);
@@ -54,6 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .filter( e ->!e.isActive())
                 .map(employeeDao -> employeeDaoToDTO(employeeDao))
                 .collect(Collectors.toCollection(() -> new ArrayList<EmployeeDto>()));
+
         return employees;
     }
 
@@ -102,7 +104,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto removeUnionForEmployee( Long id_empl , Long id_union) {
 
         Optional<UnionDao> union = Optional.ofNullable(unionRepo.findById(id_union)
-                .orElseThrow(() -> new EmployeeNotFoundException(id_union , "union")));
+                .orElseThrow(() -> new EmployeeNotFoundException(id_union, "union")));
         Optional<EmployeeDao> employee= Optional.ofNullable(employeeRepo.findById(id_empl)
                 .orElseThrow(() -> new EmployeeNotFoundException(id_empl, "employee")));
         if(!employee.get().isActive()) {
