@@ -3,6 +3,7 @@ package pl.dernovyi.myservice.models.dao;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 @Getter
 @Setter
@@ -12,6 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 @Table(name="employees")
 @EqualsAndHashCode(exclude = "unions")
+@XmlRootElement(name = "Employee")
 public class EmployeeDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

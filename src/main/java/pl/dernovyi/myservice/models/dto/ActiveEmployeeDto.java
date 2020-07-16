@@ -17,5 +17,4 @@ import java.util.Set;
 public class ActiveEmployeeDto extends EmployeeDto {
     private Double salary;
     private Date dateOfEmployment;
-
 }

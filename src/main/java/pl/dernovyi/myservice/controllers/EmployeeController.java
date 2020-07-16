@@ -26,6 +26,11 @@ public class EmployeeController {
 
         return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
+    @GetMapping("/toXLS")
+    public ResponseEntity<?> toXLS() {
+        employeeService.toXLS();
+       return new ResponseEntity<> (HttpStatus.OK);
+    }
 
     @GetMapping(path="/start/{s}")
     public ResponseEntity<?> myEmplStartWith(@PathVariable String s){
@@ -54,6 +59,12 @@ public class EmployeeController {
         employeeService.changeEmployee(employeeDto,id);
         return employeeDto;
 
+    }
+
+    @PutMapping("/toActive/{id}")//@RequestBody
+    EmployeeDto toActive(@PathVariable Long id) {
+
+        return  employeeService.employeeToActive(id);
     }
 
     //localhost:8080/addUnion/12/1

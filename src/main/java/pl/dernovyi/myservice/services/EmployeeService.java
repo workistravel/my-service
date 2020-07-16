@@ -23,4 +23,7 @@ public interface EmployeeService {
 
     EmployeeDto removeUnionForEmployee(Long id_em, Long id_un);
 
+    EmployeeDto  employeeToActive(Long id);
+
+    void toXLS();
 }

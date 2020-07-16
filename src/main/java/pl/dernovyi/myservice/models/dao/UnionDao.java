@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 
@@ -14,7 +13,6 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "employees")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class UnionDao {
     @Id
     @Getter
@@ -36,4 +34,11 @@ public class UnionDao {
             mappedBy = "unions")
     private Set<EmployeeDao> employees;
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer();
+        sb.append(id);
+        sb.append("-").append(name);
+        return sb.toString();
+    }
 }

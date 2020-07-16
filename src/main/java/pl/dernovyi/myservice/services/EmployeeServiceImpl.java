@@ -1,6 +1,6 @@
 package pl.dernovyi.myservice.services;
 
-import pl.dernovyi.myservice.converters.ConvertToXML;
+import pl.dernovyi.myservice.converters.ConvertToXLS;
 import pl.dernovyi.myservice.exception.EmployeeNotFoundException;
 import pl.dernovyi.myservice.models.dao.EmployeeDao;
 import pl.dernovyi.myservice.models.dao.UnionDao;
@@ -24,6 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private final UnionRepo unionRepo;
 
+
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
         EmployeeDao employee =EmployeeDao.builder()
@@ -44,6 +45,14 @@ public class EmployeeServiceImpl implements EmployeeService {
              } throw new EmployeeNotFoundException(id);
          }
         throw new EmployeeNotFoundException(id);
+
+    }
+
+    public void toXLS(){
+        new ConvertToXLS(
+                employeeRepo.findAll().stream()
+                .map(employeeDao -> employeeDao)
+                .collect(Collectors.toCollection(ArrayList::new))).createXLS();
 
     }
 
@@ -76,9 +85,18 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(employee -> {
                     employee.setName(employeeDto.getName());
                     employeeRepo.save(employee);
-                    return employeeDto;
+                    return employeeDaoToDTO(employeeRepo.findById(id).get());
                 }).orElseThrow(() -> new EmployeeNotFoundException(id));
 
+    }
+
+    public EmployeeDto employeeToActive(Long id){
+        return employeeRepo.findById(id)
+                .map(employee -> {
+                    employee.setActive(true);
+                      employeeRepo.save(employee);
+                  return   employeeDaoToDTO(employeeRepo.findById(id).get());
+                }).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
 
@@ -136,6 +154,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     }
+
     private Set<UnionDto> toDTOs(Set<UnionDao> union){
       return union.stream().map(u->toDto(u)).collect(Collectors.toSet());
     }
