@@ -2,7 +2,6 @@ package pl.dernovyi.myservice.models.dto;
 
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 

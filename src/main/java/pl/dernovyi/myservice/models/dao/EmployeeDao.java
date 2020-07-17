@@ -3,8 +3,8 @@ package pl.dernovyi.myservice.models.dao;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.*;
-import java.util.*;
+import java.util.Date;
+import java.util.Set;
 @Getter
 @Setter
 @Entity

@@ -1,11 +1,12 @@
 package pl.dernovyi.myservice.models.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import pl.dernovyi.myservice.models.dao.UnionDao;
 
 import java.util.Date;
-import java.util.Set;
 
 @Getter
 @Setter

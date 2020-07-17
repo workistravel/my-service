@@ -1,27 +1,20 @@
 package pl.dernovyi.myservice.converters;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import pl.dernovyi.myservice.models.dao.EmployeeDao;
 import pl.dernovyi.myservice.models.dao.UnionDao;
-import pl.dernovyi.myservice.models.dto.ActiveEmployeeDto;
 
-import javax.sql.rowset.spi.XmlWriter;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 public class ConvertToXML {
     private List<EmployeeDao> list;
@@ -30,25 +23,6 @@ public class ConvertToXML {
     }
     String fileName = "employees";
 
-
-//    public  void try2toXML() throws JAXBException, FileNotFoundException {
-//
-//        //Create JAXB Context
-//        JAXBContext jaxbContext = JAXBContext.newInstance(EmployeeDao.class);
-//
-//        //Create Marshaller
-//        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//
-//        //Required formatting??
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//
-//        //Store XML to File
-//        File file = new File("employee.xml");
-//
-//        //Writes XML file to file-system
-//        jaxbMarshaller.marshal(list, System.out);
-//        jaxbMarshaller.marshal(list.toArray(), file);
-//    }
 
 
 
@@ -119,64 +93,6 @@ public class ConvertToXML {
        transformer.transform(source, streamResult);
 
 
-//       XMLService.
-//       public void parseObjectToXml(String filePath, XMLModel xmlModel) {
-//           try {
-//               JAXBContext contextObj = JAXBContext.newInstance(XMLModel.class);
-//
-//               Marshaller marshallerObj = contextObj.createMarshaller();
-//               marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//
-//               marshallerObj.marshal(xmlModel, new FileOutputStream(filePath));
-//           } catch (JAXBException je) {
-//               System.out.println("JAXBException");
-//           } catch (IOException ie) {
-//               System.out.println("IOException");
-//           }
-//       }
-
    }
-
-        public  void TryToSave() throws JAXBException {
-
-           // ObjectMapper mapper = new XmlMapper()
-//            for (EmployeeDao empl: list) {
-//                convertObjectToXml(empl, fileName);
-//            }
-//            EmployeeDao employeeDao = EmployeeDao.builder()
-//                    .id(1L)
-//                    .name("wewee")
-//                    .salary(1234.0)
-//                    .build();
-//
-//            convertObjectToXml(employeeDao, fileName);
-        }
-//
-    public void convertObjectToXml() throws  IOException {
-
-        XStream xStream = new XStream(new DomDriver());
-        xStream.alias(fileName, List.class);
-        xStream.processAnnotations(EmployeeDao.class);
-
-        String xml = xStream.toXML(list);
-        saveToFile(xml, fileName);
-
-    }
-        private static void saveToFile(String xml, String nameFile) throws IOException {
-//            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(nameFile+".xml")));
-//            bufferedWriter.write(xml);
-//            bufferedWriter.close();
-        }
-//        try {
-//            JAXBContext context = JAXBContext.newInstance(EmployeeDao.class);
-//            Marshaller marshaller = context.createMarshaller();
-//            // устанавливаем флаг для читабельного вывода XML в JAXB
-//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//
-//            // маршаллинг объекта в файл
-//            marshaller.marshal(employee, new File(fileName));
-//        } catch (JAXBException e) {
-//            e.printStackTrace();
-//        }
 
 }
