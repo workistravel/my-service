@@ -1,6 +1,7 @@
 package pl.dernovyi.myservice.services;
 
 import pl.dernovyi.myservice.converters.ConvertToXLS;
+import pl.dernovyi.myservice.converters.ConvertToXML;
 import pl.dernovyi.myservice.exception.EmployeeNotFoundException;
 import pl.dernovyi.myservice.models.dao.EmployeeDao;
 import pl.dernovyi.myservice.models.dao.UnionDao;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.dernovyi.myservice.repository.UnionRepo;
+
+import javax.xml.bind.JAXBException;
 
 @Service
 @RequiredArgsConstructor
@@ -49,11 +52,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void toXLS(){
-        new ConvertToXLS(
-                employeeRepo.findAll().stream()
-                .map(employeeDao -> employeeDao)
-                .collect(Collectors.toCollection(ArrayList::new))).createXLS();
+        new ConvertToXLS(employeeRepo.findAll()).createXLS();
 
+    }
+
+    public void toXML(){
+        try {
+            new ConvertToXML(employeeRepo.findAll()).buildXML();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

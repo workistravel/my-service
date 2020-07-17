@@ -32,6 +32,12 @@ public class EmployeeController {
        return new ResponseEntity<> (HttpStatus.OK);
     }
 
+    @GetMapping("/toXML")
+    public ResponseEntity<?> toXML() {
+        employeeService.toXML();
+        return new ResponseEntity<> (HttpStatus.OK);
+    }
+
     @GetMapping(path="/start/{s}")
     public ResponseEntity<?> myEmplStartWith(@PathVariable String s){
        return  new ResponseEntity<>(employeeService.myEmplStartWith(s),HttpStatus.OK);

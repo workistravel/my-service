@@ -26,4 +26,6 @@ public interface EmployeeService {
     EmployeeDto  employeeToActive(Long id);
 
     void toXLS();
+
+    void toXML();
 }

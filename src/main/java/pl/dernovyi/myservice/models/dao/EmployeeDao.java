@@ -3,7 +3,7 @@ package pl.dernovyi.myservice.models.dao;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.*;
 @Getter
 @Setter
@@ -13,12 +13,10 @@ import java.util.*;
 @NoArgsConstructor
 @Table(name="employees")
 @EqualsAndHashCode(exclude = "unions")
-@XmlRootElement(name = "Employee")
 public class EmployeeDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-
     private Long id;
 
     @Column(name="name")
@@ -43,6 +41,7 @@ public class EmployeeDao {
             inverseJoinColumns = @JoinColumn(name = "unions_id"))
     Set<UnionDao> unions;
 
+
     public void addUnion(UnionDao unionDao) {
         unions.add( unionDao );
         unionDao.getEmployees().add( this );
@@ -52,8 +51,5 @@ public class EmployeeDao {
         unions.remove( unionDao );
         unionDao.getEmployees().remove( this );
     }
-
-
-
 
 }
