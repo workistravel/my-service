@@ -9,10 +9,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import pl.dernovyi.myservice.models.dao.EmployeeDao;
+import pl.dernovyi.myservice.models.dao.UnionDao;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -60,6 +65,7 @@ public  class ConvertToXLS {
 
     public void writeRows(){
 
+
         for(int rownum=0; rownum<list.size(); rownum++) {
 
              Row row = sheet.createRow(rownum+1); //создаем строку
@@ -77,9 +83,18 @@ public  class ConvertToXLS {
 
                 }
                 if(cellnum==2){
-                    if(!list.get(rownum).getUnions().isEmpty())
-                        cell.setCellValue(list.get(rownum).getUnions().toString());
-
+                    StringBuilder builder = new StringBuilder();
+                    if(!list.get(rownum).getUnions().isEmpty()) {
+                        Iterator<UnionDao> it = list.get(rownum).getUnions().iterator();
+                        while (it.hasNext()) {
+                            UnionDao union = it.next();
+                            builder.append(union.getId());
+                            builder.append("-");
+                            builder.append(union.getName()+ " ");
+                        }
+                        builder.append(".");
+                        cell.setCellValue(builder.toString());
+                    }
                 }
 
                 if(cellnum ==3){

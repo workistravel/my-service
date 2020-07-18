@@ -38,6 +38,12 @@ public class EmployeeController {
         return new ResponseEntity<> (HttpStatus.OK);
     }
 
+    @GetMapping("/toPDF")
+    public ResponseEntity<?> toPDF() {
+        employeeService.toPDF();
+        return new ResponseEntity<> (HttpStatus.OK);
+    }
+
     @GetMapping(path="/start/{s}")
     public ResponseEntity<?> myEmplStartWith(@PathVariable String s){
        return  new ResponseEntity<>(employeeService.myEmplStartWith(s),HttpStatus.OK);

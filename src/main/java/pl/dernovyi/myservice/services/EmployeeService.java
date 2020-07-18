@@ -26,4 +26,6 @@ public interface EmployeeService {
     void toXLS();
 
     void toXML();
+
+    void toPDF();
 }

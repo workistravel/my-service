@@ -21,11 +21,6 @@ public class ConvertToXML {
     public ConvertToXML(List<EmployeeDao> list) {
         this.list= list;
     }
-    String fileName = "employees";
-
-
-
-
 
 
     public void buildXML() throws Exception{
@@ -33,7 +28,7 @@ public class ConvertToXML {
        DocumentBuilder documentBuilder = factory.newDocumentBuilder();
        Document document = documentBuilder.newDocument();
        Element employeesE1  = document.createElement("Employees");
-        document.appendChild(employeesE1);
+       document.appendChild(employeesE1);
 
 
        for (int r = 0; r < list.size() ; r++) {

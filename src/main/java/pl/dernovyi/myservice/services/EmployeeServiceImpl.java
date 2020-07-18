@@ -1,5 +1,6 @@
 package pl.dernovyi.myservice.services;
 
+import pl.dernovyi.myservice.converters.ConvertToPDF;
 import pl.dernovyi.myservice.converters.ConvertToXLS;
 import pl.dernovyi.myservice.converters.ConvertToXML;
 import pl.dernovyi.myservice.exception.EmployeeNotFoundException;
@@ -64,6 +65,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    public void toPDF(){
+        new ConvertToPDF(employeeRepo.findAll()).buildPDF();
+
+    }
 
     public List<EmployeeDto> getAllEmployee() {
         List<EmployeeDto> employees;
